@@ -290,6 +290,7 @@ client.on('update', async update =>
             }
 
             // TODO could you please fix this feature, it isn't working
+            // TODO or rewrite the logic based on .pastelist outcome
             if (msg.includes(".removefromto"))
             {
                 const change = msg.match(/-*\d+/g);
@@ -351,17 +352,23 @@ client.on('update', async update =>
                 blacklisted = [];
                 whiteList = [];
                 pasteFromTo = [];
+                percentage = 0.008;
                 writeDatabase();
                 await sendMessage(id, `All the black, white, replace, and pastefromto lists were just reset!`);
             }
 
             if (msg.includes(".commands")) {
-                await sendMessage(id, `Commands: \nname @MYNAME (changes the name that will be changed, default: AliXGamer)\nwatchthis (monitors the sv for messages)\nnowatch (no longer monitor)\npastehere (forwards the messages to this channel)\nnopaste (no longer forwards to this channel)\naddblack xxx (adds xxx to the blacklist)\nremoveblack xxx (removes xxx from blacklist if present)\nblacklist (shows the current blacklist)\nwatchlist (shows the ids of channels that are being monitored)\npastelist (shows the ids of channels where the messages are forwarded AND ALSO PASTEFROMTO LIST)\ncommands (pastes this list of commands)\nwhitelist (list of whitelist word that are appended to each forwarded message)\naddwhite (add a word to whitelist)\nremovewhite (remove a word from the whitelist)\nremovepaste id(removes id from pastelist)\nremovewatch if (removes id from watchlist)\naddpaste id (adds id to pastelist)\naddmonitor id (adds id to watchlist)\npastefromto id id (adds first id to watchlist and second to pastelist)\nemptywatch (clears the watchlist)\nemptypaste (clears the pastelist)\nreplace sentence > sentence(replace the first sentence with the second)\nreplacelist(gets the replace list)\ndontreplace word(no longer replaces the word specified)\nremovefromto Fromid ToId(removes entity from pastefromto)\nemptyfromto (removes everything from pastefromto)\nreset (resets black, white, replace, and pastefromto lists\npercentage percentage (set percentage value))`);
+                await sendMessage(id, `Commands: \nname @MYNAME (changes the name that will be changed, default: AliXGamer)\nwatchthis (monitors the sv for messages)\nnowatch (no longer monitor)\npastehere (forwards the messages to this channel)\nnopaste (no longer forwards to this channel)\naddblack xxx (adds xxx to the blacklist)\nremoveblack xxx (removes xxx from blacklist if present)\nblacklist (shows the current blacklist)\nwatchlist (shows the ids of channels that are being monitored)\npastelist (shows the ids of channels where the messages are forwarded AND ALSO PASTEFROMTO LIST)\ncommands (pastes this list of commands)\nwhitelist (list of whitelist word that are appended to each forwarded message)\naddwhite (add a word to whitelist)\nremovewhite (remove a word from the whitelist)\nremovepaste id(removes id from pastelist)\nremovewatch if (removes id from watchlist)\naddpaste id (adds id to pastelist)\naddmonitor id (adds id to watchlist)\npastefromto id id (adds first id to watchlist and second to pastelist)\nemptywatch (clears the watchlist)\nemptypaste (clears the pastelist)\nreplace sentence > sentence(replace the first sentence with the second)\nreplacelist(gets the replace list)\ndontreplace word(no longer replaces the word specified)\nremovefromto Fromid ToId(removes entity from pastefromto)\nemptyfromto (removes everything from pastefromto)\nreset (resets black, white, replace, and pastefromto lists, as well as percentage value)\nsetpercentage value (updates the percentage value)\npercentage (shows the current percentage value)`);
             }
 
-            // [percentage_command_logic]
+            // [show_current_percentage_logic]
             if (msg.includes('.percentage')) {
-                percentage = parseFloat(msg.replace('.percentage', '').match(/[\d|.]/g).join(''));/*is number*/
+                await sendMessage(id, `The current percentage value is: " ${percentage}`);
+            }
+
+            // [update_percentage_command_logic]
+            if (msg.includes('.setpercentage')) {
+                percentage = parseFloat(msg.replace('.setpercentage', '').match(/[\d|.]/g).join(''));/*is number*/
                 writeDatabase();
                 await sendMessage(id, `This percentage is now : " ${percentage}`);
             }
@@ -383,10 +390,6 @@ client.on('update', async update =>
                         return result
                     }
                     splitMsg.forEach((el, i) => {
-                        if (el.toLowerCase().includes('.percentage')) {
-                            percentage = parseFloat(el.replace('.percentage', '').match(/[\d|.]/g).join(''));/*is number*/
-                            console.log('PERCENT', percentage, splitMsg[i])
-                        }
                         if (el.toLowerCase().includes('entry')) {
                             splitMsg[i] = el + '\n' + splitMsg[i + 1];
                             splitMsg[i + 1] = '';
@@ -411,8 +414,8 @@ client.on('update', async update =>
                                 let numberIndex = splitMsg[stopIndex].indexOf(stopNo)
                                 let percentMarkIndex = splitMsg[stopIndex].lastIndexOf('%')
                                 let numberWithPercentage = splitMsg[stopIndex].slice(numberIndex, percentMarkIndex + 1);
-                                let shortEq = (enterNo * stopNo) + enterNo;
-                                let longEq = ((enterNo * stopNo) - enterNo) * -1;
+                                let shortEq = (((enterNo * stopNo) / 100) + enterNo);
+                                let longEq = (((enterNo * stopNo) / 100) - enterNo) * -1;
                                 if (label === 'long') splitMsg[stopIndex] = splitMsg[stopIndex].replace(numberWithPercentage, longEq)
                                 if (label === 'short') splitMsg[stopIndex] = splitMsg[stopIndex].replace(numberWithPercentage, shortEq)
                             }
