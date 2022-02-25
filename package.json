@@ -1,0 +1,22 @@
+{
+  "name": "telegram-forward",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemailer": "^6.6.5",
+    "prompt": "^1.2.0",
+    "tdl": "^7.0.0",
+    "tdl-tdlib-addon": "^1.0.1"
+  },
+  "devDependencies": {
+    "tdlib-types": "^0.1001007.1"
+  }
+}
