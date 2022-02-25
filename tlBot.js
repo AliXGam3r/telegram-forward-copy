@@ -96,23 +96,13 @@ client.on('update', async update =>
                 }
             }
 
-            if (msg.includes(".emptywatch"))
-            {
-                monitoringChats = [];
-                await sendMessage(id, "Watch list is now empty");
-            }
-
-            if (msg.includes(".emptypaste"))
-            {
-                sendChats = []
-                await sendMessage(id, "Paste List is now empty");
-            }
-
-            if (msg.includes(".emptyfromto"))
+            if (msg.includes(".emptychannels"))
             {
                 pasteFromTo = [];
+                sendChats = [];
+                monitoringChats = [];
                 writeDatabase();
-                await sendMessage(id, "Paste From to List is now empty");
+                await sendMessage(id, "Just removed all forwarding channels!");
             }
 
             if (msg.includes(".watchlist"))
@@ -353,12 +343,14 @@ client.on('update', async update =>
                 whiteList = [];
                 pasteFromTo = [];
                 percentage = 0.008;
+                monitoringChats = [];
+                sendChats = [];
                 writeDatabase();
-                await sendMessage(id, `All the black, white, replace, and pastefromto lists were just reset!`);
+                await sendMessage(id, `Everything has just been reset!`);
             }
 
             if (msg.includes(".commands")) {
-                await sendMessage(id, `Commands: \nname @MYNAME (changes the name that will be changed, default: AliXGamer)\nwatchthis (monitors the sv for messages)\nnowatch (no longer monitor)\npastehere (forwards the messages to this channel)\nnopaste (no longer forwards to this channel)\naddblack xxx (adds xxx to the blacklist)\nremoveblack xxx (removes xxx from blacklist if present)\nblacklist (shows the current blacklist)\nwatchlist (shows the ids of channels that are being monitored)\npastelist (shows the ids of channels where the messages are forwarded AND ALSO PASTEFROMTO LIST)\ncommands (pastes this list of commands)\nwhitelist (list of whitelist word that are appended to each forwarded message)\naddwhite (add a word to whitelist)\nremovewhite (remove a word from the whitelist)\nremovepaste id(removes id from pastelist)\nremovewatch if (removes id from watchlist)\naddpaste id (adds id to pastelist)\naddmonitor id (adds id to watchlist)\npastefromto id id (adds first id to watchlist and second to pastelist)\nemptywatch (clears the watchlist)\nemptypaste (clears the pastelist)\nreplace sentence > sentence(replace the first sentence with the second)\nreplacelist(gets the replace list)\ndontreplace word(no longer replaces the word specified)\nremovefromto Fromid ToId(removes entity from pastefromto)\nemptyfromto (removes everything from pastefromto)\nreset (resets black, white, replace, and pastefromto lists, as well as percentage value)\nsetpercentage value (updates the percentage value)\npercentage (shows the current percentage value)`);
+                await sendMessage(id, `Commands: \nname @MYNAME (changes the name that will be changed, default: AliXGamer)\nwatchthis (monitors the sv for messages)\nnowatch (no longer monitor)\npastehere (forwards the messages to this channel)\nnopaste (no longer forwards to this channel)\naddblack xxx (adds xxx to the blacklist)\nremoveblack xxx (removes xxx from blacklist if present)\nblacklist (shows the current blacklist)\nwatchlist (shows the ids of channels that are being monitored)\npastelist (shows the ids of channels where the messages are forwarded AND ALSO PASTEFROMTO LIST)\ncommands (pastes this list of commands)\nwhitelist (list of whitelist word that are appended to each forwarded message)\naddwhite (add a word to whitelist)\nremovewhite (remove a word from the whitelist)\nremovepaste id(removes id from pastelist)\nremovewatch if (removes id from watchlist)\naddpaste id (adds id to pastelist)\naddmonitor id (adds id to watchlist)\npastefromto id id (adds first id to watchlist and second to pastelist)\nreplace sentence > sentence(replace the first sentence with the second)\nreplacelist(gets the replace list)\ndontreplace word(no longer replaces the word specified)\nremovefromto Fromid ToId(removes entity from pastefromto)\nemptychannels (removes all forwarding channels)\nreset (resets everything)\nsetpercentage value (updates the percentage value)\npercentage (shows the current percentage value)`);
             }
 
             // [show_current_percentage_logic]
