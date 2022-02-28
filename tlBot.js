@@ -393,8 +393,8 @@ client.on('update', async update =>
                             console.log('ENTRY', enterNo, splitMsg[i])
                             if (enterNo && percentage && !splitMsg[enterIndex].includes('-')) {
                                 splitMsg[enterIndex]
-                                if (label === 'long') splitMsg[enterIndex] = splitMsg[enterIndex].replace(enterNo, enterNo + ' - ' + ((enterNo * percentage) + enterNo))
-                                if (label === 'short') splitMsg[enterIndex] = splitMsg[enterIndex].replace(enterNo, enterNo + ' - ' + (((enterNo * percentage) - enterNo) * -1))
+                                if (label === 'long') splitMsg[enterIndex] =  '\n' +splitMsg[enterIndex].replace(enterNo, enterNo + ' - ' + ((enterNo * percentage) + enterNo))
+                                if (label === 'short') splitMsg[enterIndex] =  '\n' +splitMsg[enterIndex].replace(enterNo, enterNo + ' - ' + (((enterNo * percentage) - enterNo) * -1))
                             }
                         }
                         if (el.toLowerCase().includes('stop') && (el + splitMsg[i + 1]).includes('%') !== -1) {
@@ -411,8 +411,8 @@ client.on('update', async update =>
                                 let numberWithPercentage = splitMsg[stopIndex].slice(numberIndex, percentMarkIndex + 1);
                                 let shortEq = (((enterNo * stopNo) / 100) + enterNo);
                                 let longEq = (((enterNo * stopNo) / 100) - enterNo) * -1;
-                                if (label === 'long') splitMsg[stopIndex] = splitMsg[stopIndex].replace(numberWithPercentage, longEq)
-                                if (label === 'short') splitMsg[stopIndex] = splitMsg[stopIndex].replace(numberWithPercentage, shortEq)
+                                if (label === 'long') splitMsg[stopIndex] =  '\n' +splitMsg[stopIndex].replace(numberWithPercentage, longEq)
+                                if (label === 'short') splitMsg[stopIndex] =  '\n' +splitMsg[stopIndex].replace(numberWithPercentage, shortEq)
                             }
                         }
                     })
