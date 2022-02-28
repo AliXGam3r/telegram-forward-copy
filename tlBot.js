@@ -370,14 +370,15 @@ client.on('update', async update =>
                 let label;
                 if (msg.search(/long/i) !== -1) label = 'long'; else if (msg.search(/short/i) !== -1) label = 'short';
                 if (label) {
-                    let enterNo, stopNo, enterIndex, stopIndex, percent;
+                    let enterNo, stopNo, enterIndex, stopIndex;
                     let splitMsg = msg.split(/\r?\n/);
                     let getNumber = (str) => {
                         let result, mark;
                         if (str.includes(':')) mark = ':'
                         if (str.includes('=')) mark = '='
                         if (mark) str.split(mark).forEach(el => {
-                            if (!isNaN(parseFloat(el.match(/[^\\n]/g).join('')))) result = parseFloat(el.match(/[^\\n]/g).join(''))
+                            if (!isNaN(parseFloat(el.match(/[^\\n]/g).join(''))) && !result)
+                                result = parseFloat(el.match(/[^\\n]/g).join(''))
                         });
                         return result
                     }
