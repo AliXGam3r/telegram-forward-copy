@@ -384,8 +384,10 @@ client.on('update', async update =>
                     }
                     splitMsg.forEach((el, i) => {
                         if (el.toLowerCase().includes('entry')) {
-                            splitMsg[i] = el + '\n' + splitMsg[i + 1];
-                            splitMsg[i + 1] = '';
+                            if (!getNumber(el)) {
+                                splitMsg[i] = el + '\n' + splitMsg[i + 1];
+                                splitMsg[i + 1] = '';
+                            }
                             enterIndex = i;
                             enterNo = getNumber(splitMsg[i])
                             console.log('ENTRY', enterNo, splitMsg[i])
@@ -396,7 +398,7 @@ client.on('update', async update =>
                             }
                         }
                         if (el.toLowerCase().includes('stop') && (el + splitMsg[i + 1]).includes('%') !== -1) {
-                            if (splitMsg[i + 1]) {
+                            if (splitMsg[i + 1] && !getNumber(el)) {
                                 splitMsg[i] = el + '\n' + splitMsg[i + 1];
                                 splitMsg[i + 1] = '';
                             }
