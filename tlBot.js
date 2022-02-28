@@ -279,20 +279,22 @@ client.on('update', async update =>
                 }
             }
 
-            // TODO could you please fix this feature, it isn't working
-            // TODO or rewrite the logic based on .pastelist outcome
             if (msg.includes(".removefromto"))
             {
                 const change = msg.match(/-*\d+/g);
-                if (change && change.length == 2)
+                let removed = false;
+                if (change && change.length === 2)
                 {
-                    let fromMonitor = pasteFromTo.map(x => x.monitor);
-                    let fromPaste = pasteFromTo.map(x => x.paste);
-                    if ((fromMonitor.indexOf(id.toString()) != -1 || fromMonitor.indexOf(id)) != -1 && (fromPaste.indexOf(id.toString()) != -1 || fromPaste.indexOf(id) != -1))
-                    {
-                        pasteFromTo.splice(fromMonitor.indexOf(id.toString()), 1);
-                    }
+                    pasteFromTo.forEach((x,i) => {
+                        if (change[0] === x.monitor  && change[1] === x.paste){
+                            pasteFromTo.splice(i,1);
+                            removed = true;
+                        }
+                    });
                     writeDatabase();
+                    if (!removed) {
+                        await sendMessage(`Id not found`);
+                    }
                     await sendMessage(id, "No longer sending to: " + change[0]);
                 }
             }
